@@ -4,7 +4,6 @@ import (
 	"context"
 	"fmt"
 	"log"
-	"time"
 
 	"github.com/piotrkira/microservices-calc/addsub/endpoints"
 
@@ -12,8 +11,7 @@ import (
 )
 
 type Client struct {
-	cli        endpoints.AddSubClient
-	connection *grpc.ClientConn
+	cli endpoints.AddSubClient
 }
 
 func New(serverAddres string) *Client {
@@ -22,16 +20,12 @@ func New(serverAddres string) *Client {
 	if err != nil {
 		log.Println(err)
 	}
-	defer connection.Close()
-	client.connection = connection
 	client.cli = endpoints.NewAddSubClient(connection)
 	return &client
 }
 
 func (c *Client) Add(a, b int64) (string, error) {
-	ctx, cancel := context.WithTimeout(context.Background(), time.Second)
-	defer cancel()
-	res, err := c.cli.Add(ctx, &endpoints.Numbers{A: a, B: b})
+	res, err := c.cli.Add(context.Background(), &endpoints.Numbers{A: a, B: b})
 	if err != nil {
 		log.Println(err)
 		return "", err
@@ -40,9 +34,7 @@ func (c *Client) Add(a, b int64) (string, error) {
 }
 
 func (c *Client) Sub(a, b int64) (string, error) {
-	ctx, cancel := context.WithTimeout(context.Background(), time.Second)
-	defer cancel()
-	res, err := c.cli.Sub(ctx, &endpoints.Numbers{A: a, B: b})
+	res, err := c.cli.Sub(context.Background(), &endpoints.Numbers{A: a, B: b})
 	if err != nil {
 		log.Println(err)
 		return "", err

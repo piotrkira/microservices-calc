@@ -11,8 +11,8 @@ services:
   gateway:
     image: mc-gateway
     links:
-     - ads
-     - news
+     - addsub
+     - muldiv
 
   addsub:
     image: mc-addsub

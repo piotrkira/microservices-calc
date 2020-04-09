@@ -6,9 +6,7 @@ WORKDIR /app
 
 COPY . .
 
-RUN go mod init github.com/piotrkira/microservices-calc/web
-RUN go mod download
-RUN go mod verify
+RUN go get -d -v
 
 RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -ldflags="-w -s" -o /app/web-server
 
