@@ -1,0 +1,19 @@
+syntax = "proto3";
+
+package endpoints;
+
+message Numbers {
+    int64 a = 1;
+    int64 b = 2;
+}
+
+message Result {
+    string content = 1;
+}
+
+service Gateway {
+    rpc Add(Numbers) returns (Result) {}
+    rpc Sub(Numbers) returns (Result) {}
+    rpc Mul(Numbers) returns (Result) {}
+    rpc Div(Numbers) returns (Result) {}
+}

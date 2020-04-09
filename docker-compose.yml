@@ -1,0 +1,21 @@
+version: "3"
+
+services:
+  web:
+   image: mc-web
+   ports: 
+    - "8080:8080"
+   links:
+    - gateway
+
+  gateway:
+    image: mc-gateway
+    links:
+     - ads
+     - news
+
+  addsub:
+    image: mc-addsub
+
+  muldiv:
+    image: mc-muldiv
