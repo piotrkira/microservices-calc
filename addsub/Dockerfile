@@ -6,9 +6,7 @@ WORKDIR /app
 
 COPY . .
 
-COPY netrc /root/.netrc
-RUN chmod 600 /root/.netrc
-
+RUN go mod init github.com/piotrkira/microservices-calc/addsub
 RUN go mod download
 RUN go mod verify
 
