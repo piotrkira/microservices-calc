@@ -41,9 +41,10 @@ func addHandler() http.HandlerFunc {
 		enableCors(&w)
 		defer r.Body.Close()
 		log.Println("Addition requested")
-		params := mux.Vars(r)
-		a, _ := strconv.ParseInt(params["a"], 10, 64)
-		b, _ := strconv.ParseInt(params["b"], 10, 64)
+		aS, _ := r.URL.Query()["a"]
+		bS, _ := r.URL.Query()["b"]
+		a, _ := strconv.ParseInt(aS[0], 10, 64)
+		b, _ := strconv.ParseInt(bS[0], 10, 64)
 		result, err := gatewayCli.Add(a, b)
 		if err != nil || result == "" {
 			fmt.Fprintf(w, "Addition is currently unaviable")
@@ -57,9 +58,10 @@ func subHandler() http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		defer r.Body.Close()
 		log.Println("Addition requested")
-		params := mux.Vars(r)
-		a, _ := strconv.ParseInt(params["a"], 10, 64)
-		b, _ := strconv.ParseInt(params["b"], 10, 64)
+		aS, _ := r.URL.Query()["a"]
+		bS, _ := r.URL.Query()["b"]
+		a, _ := strconv.ParseInt(aS[0], 10, 64)
+		b, _ := strconv.ParseInt(bS[0], 10, 64)
 		result, err := gatewayCli.Sub(a, b)
 		if err != nil {
 			fmt.Fprintf(w, "Subtraction is currently unaviable")
@@ -73,9 +75,10 @@ func mulHandler() http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		defer r.Body.Close()
 		log.Println("Addition requested")
-		params := mux.Vars(r)
-		a, _ := strconv.ParseInt(params["a"], 10, 64)
-		b, _ := strconv.ParseInt(params["b"], 10, 64)
+		aS, _ := r.URL.Query()["a"]
+		bS, _ := r.URL.Query()["b"]
+		a, _ := strconv.ParseInt(aS[0], 10, 64)
+		b, _ := strconv.ParseInt(bS[0], 10, 64)
 		result, err := gatewayCli.Mul(a, b)
 		if err != nil {
 			fmt.Fprintf(w, "Multiplication is currently unaviable")
@@ -89,9 +92,10 @@ func divHandler() http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		defer r.Body.Close()
 		log.Println("Addition requested")
-		params := mux.Vars(r)
-		a, _ := strconv.ParseInt(params["a"], 10, 64)
-		b, _ := strconv.ParseInt(params["b"], 10, 64)
+		aS, _ := r.URL.Query()["a"]
+		bS, _ := r.URL.Query()["b"]
+		a, _ := strconv.ParseInt(aS[0], 10, 64)
+		b, _ := strconv.ParseInt(bS[0], 10, 64)
 		result, err := gatewayCli.Div(a, b)
 		if err != nil {
 			fmt.Fprintf(w, "Division is currently unaviable")
