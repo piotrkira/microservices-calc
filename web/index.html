@@ -9,18 +9,48 @@
     <h1>Microservice architecture based calculator.</h1>
     <input type="number" name="a" id="a"><br>
     <input type="number" name="b" id="b"><br>
-    <button>+</button>
-    <button>-</button>
-    <button>*</button>
-    <button>/</button>
+    <button onclick="add()">+</button>
+    <button onclick="sub()">-</button>
+    <button onclick="mul()">*</button>
+    <button onclick="div()">/</button>
     <script>
-        const Http = new XMLHttpRequest();
-        const url='http://localhost:8080/add?a=2&b=3';
-        Http.open("GET", url);
-        Http.send();
-
-        Http.onreadystatechange = (e) => {
-        console.log(Http.responseText)
+        aInput = document.getElementById("a")
+        bInput = document.getElementById("b")
+        function add() {
+            const Http = new XMLHttpRequest();
+            const url='http://localhost:8080/add?a='+aInput.value+ '&b='+bInput.value;
+            Http.open("GET", url);
+            Http.send();
+            Http.onreadystatechange = (e) => {
+                alert(Http.responseText)
+            }
+        }
+        function sub() {
+            const Http = new XMLHttpRequest();
+            const url='http://localhost:8080/sub?a='+aInput.value+ '&b='+bInput.value;
+            Http.open("GET", url);
+            Http.send();
+            Http.onreadystatechange = (e) => {
+                alert(Http.responseText)
+            }
+        }
+        function mul() {
+            const Http = new XMLHttpRequest();
+            const url='http://localhost:8080/mul?a='+aInput.value+ '&b='+bInput.value;
+            Http.open("GET", url);
+            Http.send();
+            Http.onreadystatechange = (e) => {
+                alert(Http.responseText)
+            }
+        }
+        function div() {
+            const Http = new XMLHttpRequest();
+            const url='http://localhost:8080/div?a='+aInput.value+ '&b='+bInput.value;
+            Http.open("GET", url);
+            Http.send();
+            Http.onreadystatechange = (e) => {
+                alert(Http.responseText)
+            }
         }
     </script>
 </body>
