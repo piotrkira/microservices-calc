@@ -13,5 +13,6 @@ RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -ldflags="-w -s" -o /app/web-
 FROM scratch
 WORKDIR /app
 COPY --from=builder /app/web-server web-server
+COPY --from=builder /app/index.html index.html
 EXPOSE 8080
 ENTRYPOINT [ "/app/web-server" ]
