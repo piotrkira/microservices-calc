@@ -30,7 +30,7 @@ func indexHandler() http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		defer r.Body.Close()
 		log.Println("Index request")
-		tmp, _ := template.ParseFiles("index.html")
+		tmp, _ := template.ParseFiles("/app/web-server/index.html")
 		tmp.Execute(w, "")
 	}
 }
