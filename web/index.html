@@ -12,17 +12,19 @@
     <button onclick="add()">+</button>
     <button onclick="sub()">-</button>
     <button onclick="mul()">*</button>
-    <button onclick="div()">/</button>
+    <button onclick="div()">/</button><br>
+    <div id="result"></div>
     <script>
         aInput = document.getElementById("a")
         bInput = document.getElementById("b")
+        result = document.getElementById("result")
         function add() {
             const Http = new XMLHttpRequest();
             const url='http://localhost:8080/add?a='+aInput.value+ '&b='+bInput.value;
             Http.open("GET", url);
             Http.send();
             Http.onreadystatechange = (e) => {
-                alert(Http.responseText)
+                result.innerHTML = Http.responseText
             }
         }
         function sub() {
@@ -31,7 +33,7 @@
             Http.open("GET", url);
             Http.send();
             Http.onreadystatechange = (e) => {
-                alert(Http.responseText)
+                result.innerHTML = Http.responseText
             }
         }
         function mul() {
@@ -40,7 +42,7 @@
             Http.open("GET", url);
             Http.send();
             Http.onreadystatechange = (e) => {
-                alert(Http.responseText)
+                result.innerHTML = Http.responseText
             }
         }
         function div() {
@@ -49,7 +51,7 @@
             Http.open("GET", url);
             Http.send();
             Http.onreadystatechange = (e) => {
-                alert(Http.responseText)
+                result.innerHTML = Http.responseText
             }
         }
     </script>
