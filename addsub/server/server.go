@@ -39,7 +39,7 @@ func (s *Server) Add(ctx context.Context, numbers *endpoints.Numbers) (*endpoint
 func (s *Server) Sub(ctx context.Context, numbers *endpoints.Numbers) (*endpoints.Result, error) {
 	log.Println("subtraction requested")
 	hostName, _ := os.Hostname()
-	result := numbers.A + numbers.B
+	result := numbers.A - numbers.B
 	content := fmt.Sprintf("The result is %d calculated by %v", result, hostName)
 	return &endpoints.Result{Content: content}, nil
 }

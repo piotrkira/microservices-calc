@@ -4,6 +4,8 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+	"strconv"
+	"text/template"
 
 	"github.com/piotrkira/microservices-calc/gateway/client"
 
@@ -18,31 +20,88 @@ type Server struct {
 // NewRouter assign rotings to paths
 func NewRouter(s *Server) {
 	s.r.HandleFunc("/", indexHandler())
+	s.r.HandleFunc("/add", addHandler())
+	s.r.HandleFunc("/sub", subHandler())
+	s.r.HandleFunc("/mul", mulHandler())
+	s.r.HandleFunc("/div", divHandler())
 }
 
 func indexHandler() http.HandlerFunc {
-	gatewayCli := client.New("gateway")
 	return func(w http.ResponseWriter, r *http.Request) {
 		defer r.Body.Close()
 		log.Println("Index request")
-		add, err := gatewayCli.Add(2, 4)
-		if err != nil {
-			add = ""
-		}
-		sub, err := gatewayCli.Sub(2, 4)
-		if err != nil {
-			add = ""
-		}
-		mul, err := gatewayCli.Mul(2, 4)
-		if err != nil {
-			add = ""
-		}
-		div, err := gatewayCli.Div(2, 4)
-		if err != nil {
-			add = ""
-		}
-		fmt.Fprintf(w, "This is a calculator\n%v\n%v\n%v\n%v\n", add, sub, mul, div)
+		tmp, _ := template.ParseFiles("server/index.html")
+		tmp.Execute(w, "")
 	}
+}
+
+func addHandler() http.HandlerFunc {
+	gatewayCli := client.New("gateway")
+	return func(w http.ResponseWriter, r *http.Request) {
+		enableCors(&w)
+		defer r.Body.Close()
+		log.Println("Addition requested")
+		params := mux.Vars(r)
+		a, _ := strconv.ParseInt(params["a"], 10, 64)
+		b, _ := strconv.ParseInt(params["b"], 10, 64)
+		result, err := gatewayCli.Add(a, b)
+		if err != nil || result == "" {
+			fmt.Fprintf(w, "Addition is currently unaviable")
+		}
+		fmt.Fprintf(w, "%v", result)
+	}
+}
+
+func subHandler() http.HandlerFunc {
+	gatewayCli := client.New("gateway")
+	return func(w http.ResponseWriter, r *http.Request) {
+		defer r.Body.Close()
+		log.Println("Addition requested")
+		params := mux.Vars(r)
+		a, _ := strconv.ParseInt(params["a"], 10, 64)
+		b, _ := strconv.ParseInt(params["b"], 10, 64)
+		result, err := gatewayCli.Sub(a, b)
+		if err != nil {
+			fmt.Fprintf(w, "Subtraction is currently unaviable")
+		}
+		fmt.Fprintf(w, "%v", result)
+	}
+}
+
+func mulHandler() http.HandlerFunc {
+	gatewayCli := client.New("gateway")
+	return func(w http.ResponseWriter, r *http.Request) {
+		defer r.Body.Close()
+		log.Println("Addition requested")
+		params := mux.Vars(r)
+		a, _ := strconv.ParseInt(params["a"], 10, 64)
+		b, _ := strconv.ParseInt(params["b"], 10, 64)
+		result, err := gatewayCli.Mul(a, b)
+		if err != nil {
+			fmt.Fprintf(w, "Multiplication is currently unaviable")
+		}
+		fmt.Fprintf(w, "%v", result)
+	}
+}
+
+func divHandler() http.HandlerFunc {
+	gatewayCli := client.New("gateway")
+	return func(w http.ResponseWriter, r *http.Request) {
+		defer r.Body.Close()
+		log.Println("Addition requested")
+		params := mux.Vars(r)
+		a, _ := strconv.ParseInt(params["a"], 10, 64)
+		b, _ := strconv.ParseInt(params["b"], 10, 64)
+		result, err := gatewayCli.Div(a, b)
+		if err != nil {
+			fmt.Fprintf(w, "Division is currently unaviable")
+		}
+		fmt.Fprintf(w, "%v", result)
+	}
+}
+
+func enableCors(w *http.ResponseWriter) {
+	(*w).Header().Set("Access-Control-Allow-Origin", "*")
 }
 
 // New returns new server
