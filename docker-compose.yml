@@ -6,13 +6,13 @@ services:
    ports: 
     - "8080:8080"
    links:
-    - gateway
+    - "gateway:gateway"
 
   gateway:
     image: mc-gateway
     links:
-     - addsub
-     - muldiv
+     - "addsub:addsub"
+     - "muldiv:muldiv"
 
   addsub:
     image: mc-addsub

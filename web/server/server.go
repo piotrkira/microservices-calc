@@ -40,7 +40,7 @@ func addHandler() http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		enableCors(&w)
 		defer r.Body.Close()
-		log.Println("Addition requested")
+		log.Println("add requested")
 		aS, _ := r.URL.Query()["a"]
 		bS, _ := r.URL.Query()["b"]
 		a, _ := strconv.ParseInt(aS[0], 10, 64)
@@ -57,13 +57,13 @@ func subHandler() http.HandlerFunc {
 	gatewayCli := client.New("gateway")
 	return func(w http.ResponseWriter, r *http.Request) {
 		defer r.Body.Close()
-		log.Println("Addition requested")
+		log.Println("sub requested")
 		aS, _ := r.URL.Query()["a"]
 		bS, _ := r.URL.Query()["b"]
 		a, _ := strconv.ParseInt(aS[0], 10, 64)
 		b, _ := strconv.ParseInt(bS[0], 10, 64)
 		result, err := gatewayCli.Sub(a, b)
-		if err != nil {
+		if err != nil || result == "" {
 			fmt.Fprintf(w, "Subtraction is currently unaviable")
 		}
 		fmt.Fprintf(w, "%v", result)
@@ -74,13 +74,13 @@ func mulHandler() http.HandlerFunc {
 	gatewayCli := client.New("gateway")
 	return func(w http.ResponseWriter, r *http.Request) {
 		defer r.Body.Close()
-		log.Println("Addition requested")
+		log.Println("mul requested")
 		aS, _ := r.URL.Query()["a"]
 		bS, _ := r.URL.Query()["b"]
 		a, _ := strconv.ParseInt(aS[0], 10, 64)
 		b, _ := strconv.ParseInt(bS[0], 10, 64)
 		result, err := gatewayCli.Mul(a, b)
-		if err != nil {
+		if err != nil || result == "" {
 			fmt.Fprintf(w, "Multiplication is currently unaviable")
 		}
 		fmt.Fprintf(w, "%v", result)
@@ -91,13 +91,13 @@ func divHandler() http.HandlerFunc {
 	gatewayCli := client.New("gateway")
 	return func(w http.ResponseWriter, r *http.Request) {
 		defer r.Body.Close()
-		log.Println("Addition requested")
+		log.Println("div requested")
 		aS, _ := r.URL.Query()["a"]
 		bS, _ := r.URL.Query()["b"]
 		a, _ := strconv.ParseInt(aS[0], 10, 64)
 		b, _ := strconv.ParseInt(bS[0], 10, 64)
 		result, err := gatewayCli.Div(a, b)
-		if err != nil {
+		if err != nil || result == "" {
 			fmt.Fprintf(w, "Division is currently unaviable")
 		}
 		fmt.Fprintf(w, "%v", result)
